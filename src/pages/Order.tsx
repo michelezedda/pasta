@@ -174,7 +174,7 @@ const Order = () => {
         <div className="xl:w-[500px]">
           <div
             className={`bg-neutral-200 rounded-4xl p-4 mt-6 text-[#0c0a20] font-semibold shadow-lg shadow-black ${
-              isFixed && "xl:fixed xl:-top-3 xl:right-5 xl:xl:w-[480px]"
+              isFixed && "xl:fixed xl:-top-3 xl:xl:w-[500px]"
             }`}
           >
             <h2 className="text-2xl text-center">Your order</h2>
