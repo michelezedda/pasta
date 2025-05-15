@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <div className="flex justify-center items-center bottom-0 gap-6 lg:w-2/3 bg-[#f49506] rounded-t-2xl py-10 mt-6 font-semibold">
+    <div className="flex justify-center items-center bg-[#f49506] rounded-t-2xl py-10 mt-10 font-semibold shadow-4xl shadow-black">
       &#169; PASTA {new Date().getFullYear()}
     </div>
   );

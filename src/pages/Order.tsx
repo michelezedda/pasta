@@ -1,4 +1,5 @@
-import { useState } from "react";
+import menu from "../data/menu";
+import { useEffect, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 
 const Order = () => {
@@ -6,244 +7,181 @@ const Order = () => {
   const [isTypeSelected, setIsTypeSelected] = useState(false);
   const [isSauceSelected, setIsSauceSelected] = useState(false);
   const [isToppingSelected, setIsToppingSelected] = useState(false);
+  const [isDrinkSelected, setIsDrinkSelected] = useState(false);
+  const [isGelatoSelected, setIsGelatoSelected] = useState(false);
+  const [isFixed, setIsFixed] = useState(false);
 
   const handleSelection = () => {
     setIsSizeSelected((prevState) => !prevState);
   };
 
-  return (
-    <div className="lg:w-2/3 bg-neutral-200 rounded-4xl p-4 mt-6 text-[#0c0a20] font-semibold bg-[url(./media/background.png)] bg-no-repeat bg-top-right pt-50 shadow-lg shadow-black">
-      <div className="flex flex-col">
-        <h2 className="text-2xl">Make your pasta</h2>
-        <div className="flex flex-col mt-4">
-          <h4 className="text-lg">Select size</h4>
-          <ul className="flex gap-6 items-center">
-            <li
-              className={`relative cursor-pointer active:scale-98 border-2 border-dotted border-neutral-800 rounded-full px-4 py-2 ${
-                isSizeSelected && "border-double"
-              }`}
-              onClick={handleSelection}
-            >
-              120g
-              {isSizeSelected && (
-                <span className="absolute -bottom-3 left-6 rounded-full bg-neutral-800 p-1.5 text-white">
-                  <FaCheck size={12} />
-                </span>
-              )}
-            </li>
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsFixed(window.scrollY > 100);
+    };
 
-            <li>240g</li>
-            <li>360g</li>
-            <li>480g</li>
-          </ul>
-        </div>
-        <div className="flex flex-col mt-4">
-          <h4 className="text-lg">Select type</h4>
-          <div className="flex gap-4 text-md text-center items-center">
-            <div
-              className={`border-2 border-dotted border-neutral-800 rounded-2xl p-2 ${
-                isTypeSelected && "border-double"
-              }`}
-            >
-              <img
-                src="/media/tagliatelle.png"
-                alt="tagliatelle pasta"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Tagliatelle</span>
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <>
+      <div className="flex flex-col xl:flex-row gap-6">
+        <div className="xl:w-2/3 bg-neutral-200 rounded-4xl p-4 mt-6 text-[#0c0a20] font-semibold bg-[url(./media/background.png)] bg-no-repeat bg-top-right pt-50 shadow-lg shadow-black">
+          <div className="flex flex-col">
+            <h2 className="text-2xl">Make your pasta</h2>
+            <div className="flex flex-col mt-4">
+              <h4 className="text-lg mb-4">Select size</h4>
+              <ul className="flex gap-4 items-center">
+                {menu.pasta.sizes.map((size) => (
+                  <li
+                    key={size.id}
+                    className={`relative cursor-pointer active:scale-98 border-2 border-dotted border-neutral-800 rounded-full px-4 py-2 ${
+                      isSizeSelected && "border-double"
+                    }`}
+                    onClick={handleSelection}
+                  >
+                    <p className="text-xl flex flex-col text-center">
+                      {size.name}
+                      <span className="font-bold text-sm text-[#c97800]">
+                        $ {size.price}
+                      </span>{" "}
+                    </p>
+
+                    {isSizeSelected && (
+                      <span className="absolute -bottom-3 left-6 rounded-full bg-neutral-800 p-1.5 text-white">
+                        <FaCheck size={12} />
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div>
-              <img
-                src="/media/farfalle.png"
-                alt="farfalle pasta"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Farfalle</span>
-            </div>
-            <div>
-              <img
-                src="/media/rigatoni.png"
-                alt="rigatoni pasta"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Rigatoni</span>
-            </div>
-            <div>
-              <img
-                src="/media/rotini.png"
-                alt="rotini pasta"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Rotini</span>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col mt-4">
-          <h4 className="text-lg">Select sauce</h4>
-          <div className="flex gap-4 text-md text-center items-center">
-            <div>
-              <img
-                src="/media/tomato.png"
-                alt="tomato sauce"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Tomato sauce</span>
-            </div>
-            <div>
-              <img
-                src="/media/pesto.png"
-                alt="pesto sauce"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Pesto sauce</span>
-            </div>
-            <div>
-              <img
-                src="/media/carbonara.png"
-                alt="carbonara sauce"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Carbonara sauce</span>
-            </div>
-            <div>
-              <img
-                src="/media/alfredo.png"
-                alt="alfredo sauce"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Alfredo sauce</span>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col mt-4">
-          <h4 className="text-lg">Select toppings</h4>
-          <div className="flex gap-4 text-md text-center items-center">
-            <div>
-              <img
-                src="/media/parmesan.png"
-                alt="parmesan"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Parmesan</span>
-            </div>
-            <div>
-              <img
-                src="/media/bacon.png"
-                alt="bacon"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Bacon</span>
-            </div>
-            <div>
-              <img
-                src="/media/chicken.png"
-                alt="grilled chicken"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Grilled chicken</span>
-            </div>
-            <div>
-              <img
-                src="/media/tofu.png"
-                alt="tofu"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Tofu</span>
-            </div>
-            <div>
-              <img
-                src="/media/basil.png"
-                alt="basil"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Basil</span>
-            </div>
-            <div>
-              <img
-                src="/media/parsley.png"
-                alt="parsley"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Parsley</span>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col mt-4">
-          <h4 className="text-lg">Select a drink</h4>
-          <div className="flex gap-4 text-md text-center items-center">
-            <div>
-              <img
-                src="/media/water.png"
-                alt="water box"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Water box</span>
-            </div>
-            <div>
-              <img
-                src="/media/coke.png"
-                alt="coke"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Coke</span>
-            </div>
-            <div>
-              <img
-                src="/media/coke-zero.png"
-                alt="coke zero"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Coke zero</span>
-            </div>
-            <div>
-              <img
-                src="/media/diet-coke.png"
-                alt="diet coke"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Diet coke</span>
+            <div className="flex flex-col mt-4">
+              <h4 className="text-lg my-4">Select type</h4>
+              <div className="grid grid-cols-3 gap-4 text-md">
+                {menu.pasta.types.map((type) => (
+                  <div
+                    key={type.id}
+                    className={`border-2 border-dotted border-neutral-800 rounded-2xl p-2 flex flex-col justify-center items-center text-center ${
+                      isTypeSelected && "border-double"
+                    }`}
+                  >
+                    <img
+                      src={type.img}
+                      alt={type.name}
+                      className="w-22 cursor-pointer active:scale-98"
+                    />
+                    <span>{type.name}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-col mt-4">
+                <h4 className="text-lg my-4">Select sauce</h4>
+                <div className="grid grid-cols-3 gap-4 text-md text-center">
+                  {menu.pasta.sauces.map((sauce) => (
+                    <div
+                      key={sauce.id}
+                      className="flex flex-col justify-center items-center"
+                    >
+                      <img
+                        src={sauce.img}
+                        alt={sauce.name}
+                        className="w-22 cursor-pointer active:scale-98"
+                      />
+                      <p className="text-xl flex flex-col text-center">
+                        {sauce.name}
+                        <span className="font-bold text-sm text-[#c97800]">
+                          + $ {sauce.price}
+                        </span>{" "}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col mt-4">
+                  <h4 className="text-lg my-4">Select toppings</h4>
+                  <div className="grid grid-cols-3 gap-4 text-md text-center">
+                    {menu.pasta.toppings.map((topping) => (
+                      <div
+                        key={topping.id}
+                        className="flex flex-col justify-center items-center"
+                      >
+                        <img
+                          src={topping.img}
+                          alt={topping.name}
+                          className="w-22 cursor-pointer active:scale-98"
+                        />
+                        <p className="text-xl flex flex-col text-center">
+                          {topping.name}
+                          <span className="font-bold text-sm text-[#c97800]">
+                            + $ {topping.price}
+                          </span>{" "}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-col mt-4">
+                    <h4 className="text-lg my-4">Select a drink</h4>
+                    <div className="grid grid-cols-3 gap-4 text-md text-center">
+                      {menu.drinks.map((drink) => (
+                        <div
+                          key={drink.id}
+                          className="flex flex-col justify-center items-center"
+                        >
+                          <img
+                            src={drink.img}
+                            alt={drink.name}
+                            className="w-22 cursor-pointer active:scale-98"
+                          />
+                          <p className="text-xl flex flex-col text-center">
+                            {drink.name}
+                            <span className="font-bold text-sm text-[#c97800]">
+                              + $ {drink.price}
+                            </span>
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col mt-4">
+                    <h4 className="text-lg my-4">Finish with a good gelato</h4>
+                    <div className="grid grid-cols-4 gap-4 text-md text-center">
+                      {menu.gelatos.map((gelato) => (
+                        <div
+                          key={gelato.id}
+                          className="flex flex-col justify-center items-center"
+                        >
+                          <img
+                            src={gelato.img}
+                            alt={gelato.name}
+                            className="w-22 cursor-pointer active:scale-98"
+                          />
+                          <p className="text-xl flex flex-col text-center">
+                            {gelato.name}
+                            <span className="font-bold text-sm text-[#c97800]">
+                              + $ {gelato.price}
+                            </span>
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex flex-col mt-4">
-          <h4 className="text-lg">Finish with a good gelato</h4>
-          <div className="flex gap-4 text-md text-center items-center">
-            <div>
-              <img
-                src="/media/vanilla.png"
-                alt="vanilla gelato"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Vanilla flavor</span>
-            </div>
-            <div>
-              <img
-                src="/media/pistachio.png"
-                alt="pistachio gelato"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Pistachio flavor</span>
-            </div>
-            <div>
-              <img
-                src="/media/strawberry.png"
-                alt="strawberry gelato"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Strawberry flavor</span>
-            </div>
-            <div>
-              <img
-                src="/media/melon.png"
-                alt="melon gelato"
-                className="w-22 cursor-pointer active:scale-98"
-              />
-              <span>Melon flavor</span>
-            </div>
+        <div className="xl:w-[500px]">
+          <div
+            className={`bg-neutral-200 rounded-4xl p-4 mt-6 text-[#0c0a20] font-semibold shadow-lg shadow-black ${
+              isFixed && "xl:fixed xl:-top-3 xl:right-5 xl:xl:w-[480px]"
+            }`}
+          >
+            <h2 className="text-2xl text-center">Your order</h2>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
