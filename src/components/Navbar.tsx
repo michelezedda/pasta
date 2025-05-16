@@ -1,11 +1,10 @@
 import { IoMdLogIn } from "react-icons/io";
-
 import { MdOutlineRestaurantMenu } from "react-icons/md";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleMenu = () => {
     setIsOpen((prevState) => !prevState);
@@ -23,7 +22,7 @@ const Navbar = () => {
       />
       {isOpen && (
         <ul
-          className={`absolute xl:hidden left-0 top-20 bg-[#f49506] px-10 py-6 z-10 flex-col gap-4 text-white text-xl font-semibold w-full rounded-2xl shadow-lg shadow-black ${
+          className={`absolute xl:hidden left-0 top-20 bg-[#f49506] px-10 py-6 z-10 flex-col gap-4 text-white text-lg font-semibold w-full rounded-2xl shadow-lg shadow-black ${
             isOpen ? "flex" : "hidden"
           }`}
         >
@@ -44,7 +43,7 @@ const Navbar = () => {
           </li>
         </ul>
       )}
-      <ul className="p-2 hidden xl:flex gap-4 text-xl font-semibold text-white">
+      <ul className="p-2 hidden xl:flex gap-4 text-lg font-semibold text-white">
         <li className="bg-[#0c0a20] rounded-full px-4 py-2 shadow-sm shadow-black cursor-pointer active:scale-98">
           Start your order
         </li>
@@ -62,7 +61,7 @@ const Navbar = () => {
         </li>
       </ul>
       <Link to={"/login"}>
-        <button className="bg-[#0c0a20] text-white rounded-full px-4 py-2 shadow-sm shadow-black cursor-pointer active:scale-98 flex gap-2 justify-center items-center font-semibold text-xl">
+        <button className="bg-[#0c0a20] text-white rounded-full px-4 py-2 shadow-sm shadow-black cursor-pointer active:scale-98 flex gap-2 justify-center items-center font-semibold text-lg">
           <IoMdLogIn size={22} />
           Log In
         </button>

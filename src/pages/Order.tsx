@@ -1,19 +1,26 @@
+import type {
+  PastaSize,
+  PastaType,
+  PastaSauce,
+  PastaSide,
+  PastaTopping,
+  Drink,
+} from "../types/menuTypes";
+import type { OrderData } from "../types/orderTypes";
 import menu from "../data/menu";
 import { useEffect, useState } from "react";
-import { FaCheck } from "react-icons/fa";
+import ProductCard from "../components/ProductCard";
 
 const Order = () => {
-  const [isSizeSelected, setIsSizeSelected] = useState(false);
-  const [isTypeSelected, setIsTypeSelected] = useState(false);
-  const [isSauceSelected, setIsSauceSelected] = useState(false);
-  const [isToppingSelected, setIsToppingSelected] = useState(false);
-  const [isDrinkSelected, setIsDrinkSelected] = useState(false);
-  const [isGelatoSelected, setIsGelatoSelected] = useState(false);
-  const [isFixed, setIsFixed] = useState(false);
-
-  const handleSelection = () => {
-    setIsSizeSelected((prevState) => !prevState);
-  };
+  const [isFixed, setIsFixed] = useState<boolean>(false);
+  const [orderData, setOrderData] = useState<OrderData>({
+    size: "",
+    type: "",
+    sauce: "",
+    side: "",
+    topping: "",
+    drink: "",
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,140 +36,97 @@ const Order = () => {
       <div className="flex flex-col xl:flex-row gap-6">
         <div className="xl:w-2/3 bg-neutral-200 rounded-4xl p-4 mt-6 text-[#0c0a20] font-semibold bg-[url(./media/background.png)] bg-no-repeat bg-top-right pt-50 shadow-lg shadow-black">
           <div className="flex flex-col">
-            <h2 className="text-2xl">Make your pasta</h2>
+            <h2 className="text-2xl">Make your own pasta</h2>
             <div className="flex flex-col mt-4">
               <h4 className="text-lg mb-4">Select size</h4>
-              <ul className="flex gap-4 items-center">
-                {menu.pasta.sizes.map((size) => (
-                  <li
+              <div className="flex gap-4 items-center">
+                {menu.pasta.sizes.map((size: PastaSize) => (
+                  <ProductCard
                     key={size.id}
-                    className={`relative cursor-pointer active:scale-98 border-2 border-dotted border-neutral-800 rounded-full px-4 py-2 ${
-                      isSizeSelected && "border-double"
-                    }`}
-                    onClick={handleSelection}
-                  >
-                    <p className="text-xl flex flex-col text-center">
-                      {size.name}
-                      <span className="font-bold text-sm text-[#c97800]">
-                        $ {size.price}
-                      </span>{" "}
-                    </p>
-
-                    {isSizeSelected && (
-                      <span className="absolute -bottom-3 left-6 rounded-full bg-neutral-800 p-1.5 text-white">
-                        <FaCheck size={12} />
-                      </span>
-                    )}
-                  </li>
+                    {...size}
+                    isSelected={orderData.size === size.id}
+                    handleSelection={() =>
+                      setOrderData((prev) => ({ ...prev, size: size.id }))
+                    }
+                  />
                 ))}
-              </ul>
+              </div>
             </div>
             <div className="flex flex-col mt-4">
               <h4 className="text-lg my-4">Select type</h4>
               <div className="grid grid-cols-3 gap-4 text-md">
-                {menu.pasta.types.map((type) => (
-                  <div
+                {menu.pasta.types.map((type: PastaType) => (
+                  <ProductCard
                     key={type.id}
-                    className={`border-2 border-dotted border-neutral-800 rounded-2xl p-2 flex flex-col justify-center items-center text-center ${
-                      isTypeSelected && "border-double"
-                    }`}
-                  >
-                    <img
-                      src={type.img}
-                      alt={type.name}
-                      className="w-22 cursor-pointer active:scale-98"
-                    />
-                    <span>{type.name}</span>
-                  </div>
+                    {...type}
+                    isSelected={orderData.type === type.id}
+                    handleSelection={() =>
+                      setOrderData((prev) => ({ ...prev, type: type.id }))
+                    }
+                  />
                 ))}
               </div>
               <div className="flex flex-col mt-4">
                 <h4 className="text-lg my-4">Select sauce</h4>
                 <div className="grid grid-cols-3 gap-4 text-md text-center">
-                  {menu.pasta.sauces.map((sauce) => (
-                    <div
+                  {menu.pasta.sauces.map((sauce: PastaSauce) => (
+                    <ProductCard
                       key={sauce.id}
-                      className="flex flex-col justify-center items-center"
-                    >
-                      <img
-                        src={sauce.img}
-                        alt={sauce.name}
-                        className="w-22 cursor-pointer active:scale-98"
-                      />
-                      <p className="text-xl flex flex-col text-center">
-                        {sauce.name}
-                        <span className="font-bold text-sm text-[#c97800]">
-                          + $ {sauce.price}
-                        </span>{" "}
-                      </p>
-                    </div>
+                      {...sauce}
+                      isSelected={orderData.sauce === sauce.id}
+                      handleSelection={() => {
+                        setOrderData((prev) => ({ ...prev, sauce: sauce.id }));
+                      }}
+                    />
                   ))}
                 </div>
                 <div className="flex flex-col mt-4">
-                  <h4 className="text-lg my-4">Select toppings</h4>
+                  <h4 className="text-lg my-4">Select a side</h4>
                   <div className="grid grid-cols-3 gap-4 text-md text-center">
-                    {menu.pasta.toppings.map((topping) => (
-                      <div
+                    {menu.pasta.sides.map((side: PastaSide) => (
+                      <ProductCard
+                        key={side.id}
+                        {...side}
+                        isSelected={orderData.side === side.id}
+                        handleSelection={() => {
+                          setOrderData((prev) => ({ ...prev, side: side.id }));
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-col mt-4">
+                  <h4 className="text-lg my-4">Select a topping</h4>
+                  <div className="grid grid-cols-3 gap-4 text-md text-center">
+                    {menu.pasta.toppings.map((topping: PastaTopping) => (
+                      <ProductCard
                         key={topping.id}
-                        className="flex flex-col justify-center items-center"
-                      >
-                        <img
-                          src={topping.img}
-                          alt={topping.name}
-                          className="w-22 cursor-pointer active:scale-98"
-                        />
-                        <p className="text-xl flex flex-col text-center">
-                          {topping.name}
-                          <span className="font-bold text-sm text-[#c97800]">
-                            + $ {topping.price}
-                          </span>{" "}
-                        </p>
-                      </div>
+                        {...topping}
+                        isSelected={orderData.topping === topping.id}
+                        handleSelection={() => {
+                          setOrderData((prev) => ({
+                            ...prev,
+                            topping: topping.id,
+                          }));
+                        }}
+                      />
                     ))}
                   </div>
                   <div className="flex flex-col mt-4">
                     <h4 className="text-lg my-4">Select a drink</h4>
                     <div className="grid grid-cols-3 gap-4 text-md text-center">
-                      {menu.drinks.map((drink) => (
-                        <div
+                      {menu.drinks.map((drink: Drink) => (
+                        <ProductCard
                           key={drink.id}
-                          className="flex flex-col justify-center items-center"
-                        >
-                          <img
-                            src={drink.img}
-                            alt={drink.name}
-                            className="w-22 cursor-pointer active:scale-98"
-                          />
-                          <p className="text-xl flex flex-col text-center">
-                            {drink.name}
-                            <span className="font-bold text-sm text-[#c97800]">
-                              + $ {drink.price}
-                            </span>
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="flex flex-col mt-4">
-                    <h4 className="text-lg my-4">Finish with a good gelato</h4>
-                    <div className="grid grid-cols-4 gap-4 text-md text-center">
-                      {menu.gelatos.map((gelato) => (
-                        <div
-                          key={gelato.id}
-                          className="flex flex-col justify-center items-center"
-                        >
-                          <img
-                            src={gelato.img}
-                            alt={gelato.name}
-                            className="w-22 cursor-pointer active:scale-98"
-                          />
-                          <p className="text-xl flex flex-col text-center">
-                            {gelato.name}
-                            <span className="font-bold text-sm text-[#c97800]">
-                              + $ {gelato.price}
-                            </span>
-                          </p>
-                        </div>
+                          {...drink}
+                          isSelected={orderData.drink === drink.id}
+                          handleSelection={() => {
+                            setOrderData((prev) => ({
+                              ...prev,
+                              drink: drink.id,
+                            }));
+                          }}
+                        />
                       ))}
                     </div>
                   </div>

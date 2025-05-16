@@ -1,4 +1,6 @@
-const menu = {
+import type { Menu } from "../types/menuTypes";
+
+const menu: Menu = {
   pasta: {
     sizes: [
       { id: 0, name: "S: 120g", price: 8.98 },
@@ -33,13 +35,20 @@ const menu = {
         price: 3.98,
       },
     ],
+    sides: [
+      { id: 0, name: "Bacon", img: "/media/bacon.png", price: 4 },
+      { id: 1, name: "Grilled chicken", img: "/media/chicken.png", price: 6 },
+      { id: 2, name: "Tofu", img: "/media/tofu.png", price: 4 },
+    ],
     toppings: [
-      { id: 0, name: "Parmesan", img: "/media/parmesan.png", price: 3 },
-      { id: 1, name: "Bacon", img: "/media/bacon.png", price: 3 },
-      { id: 2, name: "Grilled chicken", img: "/media/chicken.png", price: 6 },
-      { id: 3, name: "Tofu", img: "/media/tofu.png", price: 4 },
-      { id: 4, name: "Basil", img: "/media/basil.png", price: 1 },
-      { id: 5, name: "Parsley", img: "/media/parsley.png", price: 1 },
+      { id: 0, name: "Parmesan cheese", img: "/media/parmesan.png", price: 3 },
+      { id: 1, name: "Romano cheese", img: "/media/romano.png", price: 3 },
+      {
+        id: 2,
+        name: "Mozzarella cheese",
+        img: "/media/mozzarella.png",
+        price: 3,
+      },
     ],
   },
   drinks: [
@@ -49,12 +58,6 @@ const menu = {
     { id: 3, name: "Diet coke", img: "/media/diet-coke.png", price: 4 },
     { id: 4, name: "Fanta", img: "/media/fanta.png", price: 4 },
     { id: 5, name: "Sprite", img: "/media/sprite.png", price: 4 },
-  ],
-  gelatos: [
-    { id: 0, name: "Pistachio", img: "/media/pistachio.png", price: 3.98 },
-    { id: 1, name: "Vanilla", img: "/media/vanilla.png", price: 3.98 },
-    { id: 2, name: "Strawberry", img: "/media/strawberry.png", price: 3.98 },
-    { id: 3, name: "Melon", img: "/media/melon.png", price: 3.98 },
   ],
 };
 
